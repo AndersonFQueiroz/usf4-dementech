@@ -1,0 +1,38 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/HomeChannels.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/HomeChannels.smali
+@@ -79,6 +79,8 @@
+     .param p2, "home"    # Lio/github/belmantegu/ds/android/HomeScreen;
+     .param p3, "settings"    # Lio/github/belmantegu/usfivrecomp/Settings;
+ 
++    return-void
++
+     .line 61
+     invoke-static {p0}, Lio/github/belmantegu/usfivrecomp/HomeChannels;->client(Landroid/app/Activity;)Lio/github/belmantegu/ds/core/LinksClient;
+ 
+@@ -197,7 +199,7 @@
+     .param p0, "a"    # Landroid/app/Activity;
+ 
+     .line 41
+-    const-string v9, "https://zuzodifmaolcmzycfnmq.supabase.co"
++    const-string v9, "https://dementech.invalid"
+ 
+     .line 42
+     .local v9, "url":Ljava/lang/String;
+@@ -325,7 +327,7 @@
+ 
+     const-string v3, "Belmante"
+ 
+-    const-string v4, "https://www.youtube.com/@belmante"
++    const-string v4, "https://dementech.invalid"
+ 
+     const/4 v5, 0x0
+ 
+@@ -338,7 +340,7 @@
+ 
+     const-string v2, "Bruno"
+ 
+-    const-string v3, "https://www.youtube.com/@BrunoSousaf"
++    const-string v3, "https://dementech.invalid"
+ 
+     const-string v4, "bruno"
+ 

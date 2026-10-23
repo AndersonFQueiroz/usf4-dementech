@@ -1,0 +1,11 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsActivity$Environment.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsActivity$Environment.smali
+@@ -47,7 +47,7 @@
+     .locals 1
+ 
+     .line 68
+-    const-string v0, "https://zuzodifmaolcmzycfnmq.supabase.co"
++    const-string v0, "https://dementech.invalid"
+ 
+     invoke-virtual {v0}, Ljava/lang/String;->isEmpty()Z
+ 

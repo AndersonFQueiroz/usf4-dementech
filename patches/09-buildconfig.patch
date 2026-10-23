@@ -1,0 +1,16 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/BuildConfig.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/BuildConfig.smali
+@@ -10,11 +10,11 @@
+ 
+ .field public static final DEBUG:Z
+ 
+-.field public static final FEEDBACK_URL:Ljava/lang/String; = "https://zuzodifmaolcmzycfnmq.supabase.co/functions/v1/logrelay"
++.field public static final FEEDBACK_URL:Ljava/lang/String; = "https://dementech.invalid/functions/v1/logrelay"
+ 
+ .field public static final LINKS_PUBLIC_KEYS:Ljava/lang/String; = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwPXfUDLLWta/DWuZyltpE6Q8PHE4eCPr6Qek9x7BdAAsRiZLZGs2IOHKfXNQIz0Az3UdgFc7BeElG8YEclgcAw=="
+ 
+-.field public static final LINKS_URL:Ljava/lang/String; = "https://zuzodifmaolcmzycfnmq.supabase.co"
++.field public static final LINKS_URL:Ljava/lang/String; = "https://dementech.invalid"
+ 
+ .field public static final LOGRELAY_PUBLIC_KEY:Ljava/lang/String; = "0423d3857d892d468cb46b94f6586b010a0cc079b6373cbc3f36c4a38b85d27cf47a69c325f344720304bc3badd1f725ca83d030c9d0c6acdcdc6cb35134748e7e"
+ 

@@ -1,0 +1,11 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/Settings.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/Settings.smali
+@@ -68,7 +68,7 @@
+     .param p0, "c"    # Landroid/content/Context;
+ 
+     .line 112
+-    const-string v0, "https://zuzodifmaolcmzycfnmq.supabase.co/functions/v1/logrelay"
++    const-string v0, "https://dementech.invalid/functions/v1/logrelay"
+ 
+     const-string v1, "0423d3857d892d468cb46b94f6586b010a0cc079b6373cbc3f36c4a38b85d27cf47a69c325f344720304bc3badd1f725ca83d030c9d0c6acdcdc6cb35134748e7e"
+ 

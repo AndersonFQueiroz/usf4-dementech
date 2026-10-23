@@ -1,0 +1,8 @@
+--- a/apktool.yml
++++ b/apktool.yml
+@@ -589,4 +589,4 @@
+ version: 2.7.0-dirty
+ versionInfo:
+   versionCode: '3'
+-  versionName: 0.3.0
++  versionName: 1.0

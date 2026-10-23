@@ -1,0 +1,27 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsModel.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsModel.smali
+@@ -546,24 +546,6 @@
+ 
+     invoke-interface {v5, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+ 
+-    .line 168
+-    const-string v3, "yt_belmante"
+-
+-    invoke-static {v3}, Lio/github/belmantegu/usfivrecomp/OptionsModel;->action(Ljava/lang/String;)Lio/github/belmantegu/ds/core/OptionSpec;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v5, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+-
+-    .line 169
+-    const-string v3, "yt_bruno"
+-
+-    invoke-static {v3}, Lio/github/belmantegu/usfivrecomp/OptionsModel;->action(Ljava/lang/String;)Lio/github/belmantegu/ds/core/OptionSpec;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v5, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+-
+     .line 170
+     const-string v3, "channels"
+ 
