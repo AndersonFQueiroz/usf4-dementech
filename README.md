@@ -1,6 +1,6 @@
 # Dementech USF4
 
-Rebrand pessoal do launcher **Ultra Street Fighter IV** (port ReXGlue para Android)
+Launcher Pessoal **Ultra Street Fighter IV** (port ReXGlue para Android)
 na identidade visual Dementech, com uma melhoria de controle: o touch virtual
 some sozinho quando um controle/joystick físico é usado e volta com um toque na tela.
 
