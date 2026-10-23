@@ -1,0 +1,3 @@
+build/
+*.apk
+!dist/dementech-usf4-1.0.apk

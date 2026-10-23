@@ -1,0 +1,57 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/UsfivTheme.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/UsfivTheme.smali
+@@ -16,11 +16,11 @@
+ 
+     move-object/from16 v0, v26
+ 
+-    const/16 v1, -0x60e6
++    const v1, -0xc4b2
+ 
+-    const/16 v2, -0x3db3
++    const v2, -0x7576c
+ 
+-    const v3, -0xa600
++    const v3, -0x37efd2
+ 
+     filled-new-array {v3, v1, v2}, [I
+ 
+@@ -34,7 +34,7 @@
+ 
+     const-string v2, "Ultra Street Fighter IV"
+ 
+-    const-string v3, "Projeto Belmante"
++    const-string v3, "Dementech"
+ 
+     const v4, -0xf1f1ef
+ 
+@@ -46,23 +46,23 @@
+ 
+     const v8, -0xd4d4cd
+ 
+-    const v9, -0x90c12
++    const v9, -0x16120c
+ 
+-    const v10, -0x5a5e60
++    const v10, -0x645948
+ 
+-    const/16 v11, -0x60e6
++    const v11, -0xc4b2
+ 
+     const v12, -0xe5f300
+ 
+-    const/16 v13, -0x1d86
++    const v13, -0xd0a06
+ 
+-    const v14, -0x85c4
++    const v14, -0xb2a2
+ 
+-    const v15, -0x95b4
++    const v15, -0xad9a
+ 
+     const v17, -0xe5f300
+ 
+-    const v18, 0x73ff961e
++    const v18, 0x73ff3b4e
+ 
+     const/high16 v19, 0x3f000000    # 0.5f
+ 

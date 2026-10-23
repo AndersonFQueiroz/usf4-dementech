@@ -1,0 +1,11 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/LauncherActivity.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/LauncherActivity.smali
+@@ -892,7 +892,7 @@
+ 
+     move-result-object v10
+ 
+-    const-string v2, "PROJETO BELMANTE"
++    const-string v2, "PROJETO DEMENTECH"
+ 
+     const-string v3, "Ultra Street\nFighter IV"
+ 

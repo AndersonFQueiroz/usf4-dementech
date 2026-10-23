@@ -1,0 +1,62 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsText.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsText.smali
+@@ -879,17 +879,17 @@
+ 
+     aput-object v3, v0, v5
+ 
+-    const-string v3, "@belmante"
++    const-string v3, "Dementech"
+ 
+     aput-object v3, v0, v6
+ 
+     aput-object v3, v0, v7
+ 
+-    const-string v3, "Credits: the port and the app. YouTube channel"
++    const-string v3, "Credits: Dementech"
+ 
+     aput-object v3, v0, v8
+ 
+-    const-string v3, "Cr\u00e9ditos: o port e o app. Canal do YouTube"
++    const-string v3, "Cr\u00e9ditos: Dementech"
+ 
+     aput-object v3, v0, v9
+ 
+@@ -903,17 +903,17 @@
+ 
+     aput-object v3, v0, v5
+ 
+-    const-string v3, "@BrunoSousaf"
++    const-string v3, "Dementech"
+ 
+     aput-object v3, v0, v6
+ 
+     aput-object v3, v0, v7
+ 
+-    const-string v3, "Credits: thanks for the help. YouTube channel"
++    const-string v3, "Credits: Dementech"
+ 
+     aput-object v3, v0, v8
+ 
+-    const-string v3, "Cr\u00e9ditos: agradecimento pela ajuda. Canal do YouTube"
++    const-string v3, "Cr\u00e9ditos: Dementech"
+ 
+     aput-object v3, v0, v9
+ 
+@@ -2043,7 +2043,7 @@
+ 
+     if-eqz v0, :cond_0
+ 
+-    const-string v0, "https://www.youtube.com/@belmante"
++    const-string v0, "https://dementech.invalid"
+ 
+     return-object v0
+ 
+@@ -2057,7 +2057,7 @@
+ 
+     if-eqz v0, :cond_1
+ 
+-    const-string v0, "https://www.youtube.com/@BrunoSousaf"
++    const-string v0, "https://dementech.invalid"
+ 
+     return-object v0
+ 
