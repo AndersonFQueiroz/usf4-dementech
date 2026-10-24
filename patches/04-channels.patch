@@ -9,6 +9,18 @@
      .line 61
      invoke-static {p0}, Lio/github/belmantegu/usfivrecomp/HomeChannels;->client(Landroid/app/Activity;)Lio/github/belmantegu/ds/core/LinksClient;
  
+@@ -110,9 +112,9 @@
+     .local v6, "start":Lio/github/belmantegu/ds/core/LinksClient$Snapshot;
+     new-instance v1, Lio/github/belmantegu/ds/android/ChannelButtons;
+ 
+-    const-string v2, "Follow the channels"
++    const-string v2, "Channels"
+ 
+-    const-string v3, "Siga os canais"
++    const-string v3, "Canais"
+ 
+     invoke-static {v2, v3}, Lio/github/belmantegu/usfivrecomp/Lang;->s(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
 @@ -197,7 +199,7 @@
      .param p0, "a"    # Landroid/app/Activity;
  
@@ -18,21 +30,33 @@
  
      .line 42
      .local v9, "url":Ljava/lang/String;
-@@ -325,7 +327,7 @@
+@@ -321,11 +323,11 @@
+     .local v0, "d":Ljava/util/List;, "Ljava/util/List<Lio/github/belmantegu/ds/core/LinkSpec;>;"
+     new-instance v1, Lio/github/belmantegu/ds/core/LinkSpec;
  
-     const-string v3, "Belmante"
+-    const-string v2, "belmante"
++    const-string v2, "dementech"
+ 
+-    const-string v3, "Belmante"
++    const-string v3, "Dementech"
  
 -    const-string v4, "https://www.youtube.com/@belmante"
 +    const-string v4, "https://dementech.invalid"
  
      const/4 v5, 0x0
  
-@@ -338,7 +340,7 @@
+@@ -336,11 +338,11 @@
+     .line 35
+     new-instance v1, Lio/github/belmantegu/ds/core/LinkSpec;
  
-     const-string v2, "Bruno"
+-    const-string v2, "Bruno"
++    const-string v2, "Dementech"
  
 -    const-string v3, "https://www.youtube.com/@BrunoSousaf"
 +    const-string v3, "https://dementech.invalid"
  
-     const-string v4, "bruno"
+-    const-string v4, "bruno"
++    const-string v4, "dementech"
+ 
+     invoke-direct {v1, v4, v2, v3, v5}, Lio/github/belmantegu/ds/core/LinkSpec;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/belmantegu/ds/core/LinkSpec$ImageRef;)V
  

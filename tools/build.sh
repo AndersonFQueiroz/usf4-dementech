@@ -40,8 +40,32 @@ for p in "$ROOT"/patches/*.patch; do
   patch -p1 -s < "$p"
 done
 
-echo "== assets de marca"
+echo "== limpeza de resíduos do autor"
 rm -f assets/links/belmante.jpg assets/links/bruno.jpg
+rm -f res/drawable-nodpi/channel_belmante.png res/drawable-nodpi/channel_bruno.png
+
+# remove as entradas correspondentes da tabela publica de recursos
+python3 - <<'PY'
+p = 'res/values/public.xml'
+lines = [l for l in open(p, encoding='utf-8')
+         if 'channel_belmante' not in l and 'channel_bruno' not in l]
+open(p, 'w', encoding='utf-8').writelines(lines)
+PY
+
+# caminhos de build embutidos nos .so (mesmo comprimento, offsets intactos)
+python3 - <<'PY'
+import glob
+for f in glob.glob('lib/arm64-v8a/*.so'):
+    d = open(f,'rb').read()
+    if b'C:/Users/Belmante' not in d: continue
+    n = d.count(b'C:/Users/Belmante')
+    d2 = d.replace(b'C:/Users/Belmante', b'C:/Users/Anderson')
+    assert len(d2) == len(d), f
+    open(f,'wb').write(d2)
+    print('   %s: %d caminhos' % (f, n))
+PY
+
+echo "== assets de marca"
 cp "$ROOT/assets/brand/launcher_logo.png" assets/launcher/logo.png
 for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
   cp "$ROOT/assets/brand/ic_launcher_$d.png" "res/mipmap-$d/ic_launcher.png"

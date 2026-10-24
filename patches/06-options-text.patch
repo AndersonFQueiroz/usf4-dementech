@@ -1,6 +1,11 @@
 --- a/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsText.smali
 +++ b/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsText.smali
-@@ -879,17 +879,17 @@
+@@ -875,21 +875,21 @@
+ 
+     new-array v0, v2, [Ljava/lang/String;
+ 
+-    const-string v3, "yt_belmante"
++    const-string v3, "yt_primary"
  
      aput-object v3, v0, v5
  
@@ -21,7 +26,12 @@
  
      aput-object v3, v0, v9
  
-@@ -903,17 +903,17 @@
+@@ -899,21 +899,21 @@
+ 
+     new-array v0, v2, [Ljava/lang/String;
+ 
+-    const-string v3, "yt_bruno"
++    const-string v3, "yt_secondary"
  
      aput-object v3, v0, v5
  
@@ -42,7 +52,34 @@
  
      aput-object v3, v0, v9
  
-@@ -2043,7 +2043,7 @@
+@@ -1080,7 +1080,7 @@
+     goto/16 :goto_0
+ 
+     :sswitch_0
+-    const-string v0, "yt_belmante"
++    const-string v0, "yt_primary"
+ 
+     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 
+@@ -1288,7 +1288,7 @@
+     goto :goto_1
+ 
+     :sswitch_10
+-    const-string v0, "yt_bruno"
++    const-string v0, "yt_secondary"
+ 
+     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 
+@@ -2035,7 +2035,7 @@
+     .param p0, "key"    # Ljava/lang/String;
+ 
+     .line 102
+-    const-string v0, "yt_belmante"
++    const-string v0, "yt_primary"
+ 
+     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 
+@@ -2043,13 +2043,13 @@
  
      if-eqz v0, :cond_0
  
@@ -50,6 +87,13 @@
 +    const-string v0, "https://dementech.invalid"
  
      return-object v0
+ 
+     .line 103
+     :cond_0
+-    const-string v0, "yt_bruno"
++    const-string v0, "yt_secondary"
+ 
+     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
  
 @@ -2057,7 +2057,7 @@
  

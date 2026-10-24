@@ -25,3 +25,12 @@
      .line 170
      const-string v3, "channels"
  
+@@ -719,7 +701,7 @@
+     goto/16 :goto_0
+ 
+     :sswitch_0
+-    const-string v0, "yt_belmante"
++    const-string v0, "yt_primary"
+ 
+     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 

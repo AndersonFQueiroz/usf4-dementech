@@ -1,0 +1,23 @@
+--- a/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsActivity.smali
++++ b/smali_classes2/io/github/belmantegu/usfivrecomp/OptionsActivity.smali
+@@ -399,9 +399,9 @@
+     .locals 2
+ 
+     .line 270
+-    const-string v0, "Ultra Street Fighter IV is a Capcom game. This is an unofficial, free fan port; it contains no game files: you import your own copy.\n\nPort and app: Belmantegu (YouTube @belmante).\nThanks: @BrunoSousaf (YouTube).\n\nReXGlue: the recompiler and runtime.\nXenosRecomp and Unleashed Recompiled (hedge-dev): shader conversion and its interface.\nXenia: the reference for the Xbox 360 GPU state and formats.\nSDL3, Vulkan, libadrenotools and Mesa Turnip (custom drivers)."
++    const-string v0, "Ultra Street Fighter IV is a Capcom game. This is an unofficial, free fan port; it contains no game files: you import your own copy.\n\nPort and app: Dementech.\n\nReXGlue: the recompiler and runtime.\nXenosRecomp and Unleashed Recompiled (hedge-dev): shader conversion and its interface.\nXenia: the reference for the Xbox 360 GPU state and formats.\nSDL3, Vulkan, libadrenotools and Mesa Turnip (custom drivers)."
+ 
+-    const-string v1, "Ultra Street Fighter IV \u00e9 um jogo da Capcom. Este \u00e9 um port de f\u00e3, gratuito e n\u00e3o oficial; n\u00e3o cont\u00e9m arquivos do jogo: voc\u00ea importa a sua c\u00f3pia.\n\nPort e app: Belmantegu (YouTube @belmante).\nAgradecimentos: @BrunoSousaf (YouTube).\n\nReXGlue: o recompilador e o runtime.\nXenosRecomp e Unleashed Recompiled (hedge-dev): convers\u00e3o de shaders e sua interface.\nXenia: a refer\u00eancia do estado e dos formatos da GPU do Xbox 360.\nSDL3, Vulkan, libadrenotools e Mesa Turnip (drivers personalizados)."
++    const-string v1, "Ultra Street Fighter IV \u00e9 um jogo da Capcom. Este \u00e9 um port de f\u00e3, gratuito e n\u00e3o oficial; n\u00e3o cont\u00e9m arquivos do jogo: voc\u00ea importa a sua c\u00f3pia.\n\nPort e app: Dementech.\n\nReXGlue: o recompilador e o runtime.\nXenosRecomp e Unleashed Recompiled (hedge-dev): convers\u00e3o de shaders e sua interface.\nXenia: a refer\u00eancia do estado e dos formatos da GPU do Xbox 360.\nSDL3, Vulkan, libadrenotools e Mesa Turnip (drivers personalizados)."
+ 
+     invoke-static {v0, v1}, Lio/github/belmantegu/usfivrecomp/Lang;->s(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+@@ -1433,7 +1433,7 @@
+     goto/16 :goto_0
+ 
+     :sswitch_0
+-    const-string v0, "yt_belmante"
++    const-string v0, "yt_primary"
+ 
+     invoke-virtual {p1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+ 

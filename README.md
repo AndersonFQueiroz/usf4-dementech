@@ -12,16 +12,23 @@ transformação, os assets de marca e o script de build. Uso pessoal — não di
 | # | Patch | Efeito |
 |---|---|---|
 | 00 | `00-version` | `versionName` → `1.0` |
-| 01 | `01-appname` | nome do app → **Dementech USF4** |
+| 01 | `01-appname` / `01b-appname-pt` | nome do app → **Ultra Street Fighter IV** (values + values-pt) |
 | 02 | `02-header` | cabeçalho "PROJETO BELMANTE" → "PROJETO DEMENTECH" |
 | 03 | `03-theme` | paleta laranja → preto/prata/vermelho Dementech (+ assinatura do tema) |
-| 04 | `04-channels` | remove o bloco "Siga os canais" e os avatares de redes sociais |
+| 04 | `04-channels` | remove o bloco "Siga os canais", avatares e nomes de canais |
 | 05 | `05-options-model` | remove as linhas de canais/créditos das opções |
 | 06 | `06-options-text` | textos de créditos/descrições e links neutralizados |
+| 11 | `11-OptionsActivity` | tela "Sobre": remove nome/handles/agradecimentos do autor |
 | 07 | `07-env` | URL de ambiente/telemetria → placeholder |
 | 08 | `08-settings` | URL de telemetria → placeholder |
 | 09 | `09-buildconfig` | URL de telemetria → placeholder |
 | 10 | `10-gamepad-touch` | touch virtual oculto ao usar controle físico; toque na tela restaura |
+
+Extras aplicados pelo `tools/build.sh`:
+- apaga `res/drawable-nodpi/channel_belmante.png` e `channel_bruno.png` (e as
+  entradas correspondentes em `res/values/public.xml`);
+- troca `C:/Users/Belmante` por `C:/Users/Anderson` nos `.so` (mesmo comprimento,
+  offsets intactos).
 
 Assets:
 - `assets/brand/launcher_logo.png` → `assets/launcher/logo.png` (emblema Dementech × SF)
