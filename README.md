@@ -41,8 +41,15 @@ Assets:
   `releases/latest/download/manifest.json`; se `version` > local, baixa `patch.zip`,
   confere `sha256` e extrai em `files/` (grava `patch_status.txt`).
 - Download roda em **serviço em primeiro plano** (notificação com %) + wake lock.
-- `manifest.json` também aceita `data[]` para baixar o pacote do jogo
-  (tar.gz em streaming para `files/UsfivRecomp`) — hoje sem pacote publicado.
+- `manifest.json` aceita `data[]` em dois modos:
+  - `{"url": "...tar.gz", "tar": true, "dir": "UsfivRecomp"}` — tar.gz em streaming;
+  - `{"list": "...data.json", "dir": "UsfivRecomp"}` — lista de arquivos do Drive
+    (`{p,id,s}`), baixados 3 em paralelo, pulando o que já existe com o tamanho certo.
+- Pacote atual: 972 arquivos / 7,46 GB na pasta `USF4-Dementech/game` do Drive
+  (`andersonagentia1@gmail.com`). A pasta **precisa estar compartilhada como "qualquer
+  pessoa com o link"** — senão o download devolve a página de login (HTML) no lugar do arquivo.
+- O serviço em primeiro plano só é parado depois de 2,5 s do start (evita o
+  `ForegroundServiceDidNotStartInTimeException` quando o download termina em milissegundos).
 - Código: `java/com/dementech/update/Bootstrap.java` (vira `classes6.dex`).
 
 ## Build

@@ -98,6 +98,20 @@ public final class Bootstrap {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject d = data.getJSONObject(i);
                 String url = d.optString("url", "");
+                String list = d.optString("list", "");
+                if (!list.isEmpty()) {
+                    File marker2 = new File(root, ".dados_ok");
+                    if (marker2.isFile()) continue;
+                    startKeepAlive(ctx, "Baixando dados do jogo");
+                    try {
+                        downloadFolderList(list, new File(root, d.optString("dir", "UsfivRecomp")));
+                        writeText(marker2, "ok\n");
+                        notify(ctx, "Dados do jogo prontos", "Dementech USF4");
+                    } finally {
+                        stopKeepAlive(ctx);
+                    }
+                    continue;
+                }
                 if (url.isEmpty()) continue;
                 boolean tar = d.optBoolean("tar", false) || url.endsWith(".tar.gz");
                 File dest = new File(root, d.optString("dir", "UsfivRecomp"));
@@ -132,10 +146,13 @@ public final class Bootstrap {
         void on(long done, long total);
     }
 
+    private static volatile long keepAliveAt;
+
     private static void startKeepAlive(Context ctx, String title) {
         try {
             Intent i = new Intent(ctx, KeepAlive.class);
             i.putExtra("title", title);
+            keepAliveAt = System.currentTimeMillis();
             if (Build.VERSION.SDK_INT >= 26) ctx.startForegroundService(i);
             else ctx.startService(i);
         } catch (Throwable ignored) {
@@ -144,6 +161,13 @@ public final class Bootstrap {
 
     private static void stopKeepAlive(Context ctx) {
         try {
+            long alive = System.currentTimeMillis() - keepAliveAt;
+            if (alive < 2500) {
+                try {
+                    Thread.sleep(2500 - alive);
+                } catch (InterruptedException ignored) {
+                }
+            }
             ctx.stopService(new Intent(ctx, KeepAlive.class));
         } catch (Throwable ignored) {
         }
@@ -157,7 +181,20 @@ public final class Bootstrap {
         c.setRequestProperty("User-Agent", "DementechLauncher");
         try {
             int code = c.getResponseCode();
-            if (code != 200) throw new IOException("HTTP " + code);
+            if (code != 200) {
+                String eff = c.getURL().toString();
+                String body = "";
+                try {
+                    InputStream es = c.getErrorStream();
+                    if (es != null) {
+                        byte[] b = readAll(es);
+                        body = new String(b, "UTF-8");
+                        if (body.length() > 160) body = body.substring(0, 160);
+                    }
+                } catch (Throwable ignored) {
+                }
+                throw new IOException("HTTP " + code + " url=" + eff + " body=" + body.replace('\n', ' '));
+            }
             return readAll(c.getInputStream());
         } finally {
             c.disconnect();
@@ -166,13 +203,14 @@ public final class Bootstrap {
 
     static void download(String url, File out, long expected, Progress p) throws IOException {
         HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+        c.setInstanceFollowRedirects(true);
         c.setConnectTimeout(15000);
         c.setReadTimeout(30000);
         c.setInstanceFollowRedirects(true);
         c.setRequestProperty("User-Agent", "DementechLauncher");
         try {
             int code = c.getResponseCode();
-            if (code != 200) throw new IOException("HTTP " + code);
+            if (code != 200) throw new IOException("HTTP " + code + " dl=" + c.getURL() + " esperado=" + url);
             long total = expected > 0 ? expected : c.getContentLengthLong();
             InputStream in = new BufferedInputStream(c.getInputStream(), 1 << 16);
             OutputStream os = new BufferedOutputStream(new FileOutputStream(out), 1 << 16);
@@ -190,6 +228,70 @@ public final class Bootstrap {
         } finally {
             c.disconnect();
         }
+    }
+
+    static void downloadFolderList(String listUrl, File root) throws Exception {
+        JSONArray files = new JSONObject(new String(fetch(listUrl), "UTF-8")).getJSONArray("files");
+        long total = 0;
+        for (int i = 0; i < files.length(); i++) total += files.getJSONObject(i).optLong("s", 0);
+        final long grand = total;
+        final java.util.concurrent.atomic.AtomicLong done = new java.util.concurrent.atomic.AtomicLong();
+        final java.util.concurrent.atomic.AtomicInteger idx = new java.util.concurrent.atomic.AtomicInteger();
+        final java.util.concurrent.atomic.AtomicReference<Exception> err = new java.util.concurrent.atomic.AtomicReference<>();
+        int workers = 3;
+        Thread[] pool = new Thread[workers];
+        for (int w = 0; w < workers; w++) {
+            pool[w] = new Thread(() -> {
+                while (err.get() == null) {
+                    int i = idx.getAndIncrement();
+                    if (i >= files.length()) return;
+                    try {
+                        JSONObject f = files.getJSONObject(i);
+                        String path = f.getString("p");
+                        long size = f.optLong("s", 0);
+                        String id = f.getString("id");
+                        File out = new File(root, path);
+                        if (out.isFile() && out.length() == size) {
+                            done.addAndGet(size);
+                            continue;
+                        }
+                        File parent = out.getParentFile();
+                        if (parent != null) parent.mkdirs();
+                        File part = new File(out.getPath() + ".part");
+                        String url = "https://drive.usercontent.google.com/download?id=" + id
+                                + "&export=download&confirm=t";
+                        int tries = 0;
+                        while (true) {
+                            try {
+                                download(url, part, size, (d2, t2) -> {
+                                    if (t2 > 0) {
+                                        int pct = (int) ((done.get() + d2) * 100 / Math.max(grand, 1));
+                                        KeepAlive.progress(pct, "baixando dados… " + pct + "%");
+                                    }
+                                });
+                                if (part.length() != size) throw new IOException("tamanho " + path);
+                                if (!part.renameTo(out)) throw new IOException("rename " + path);
+                                break;
+                            } catch (Exception e) {
+                                part.delete();
+                                if (++tries >= 3) throw e;
+                                Thread.sleep(1500L * tries);
+                            }
+                        }
+                        done.addAndGet(size);
+                        int pct = (int) (done.get() * 100 / Math.max(grand, 1));
+                        KeepAlive.progress(pct, "baixando dados… " + pct + "%");
+                    } catch (Exception e) {
+                        err.compareAndSet(null, e);
+                        return;
+                    }
+                }
+            }, "dementech-dl" + w);
+            pool[w].start();
+        }
+        for (Thread t : pool) t.join();
+        Exception e = err.get();
+        if (e != null) throw e;
     }
 
     static void downloadTarGz(String url, File dest, long expected, Progress p) throws IOException {
@@ -455,10 +557,16 @@ public final class Bootstrap {
                 lock.acquire(60 * 60 * 1000L);
             }
             Notification n = build("Dementech", "preparando…", -1);
-            if (Build.VERSION.SDK_INT >= 29) {
-                startForeground(2002, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
-            } else {
-                startForeground(2002, n);
+            try {
+                if (Build.VERSION.SDK_INT >= 29) {
+                    startForeground(2002, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+                } else {
+                    startForeground(2002, n);
+                }
+                android.util.Log.i("Dementech", "keepalive ativo");
+            } catch (Throwable t) {
+                android.util.Log.i("Dementech", "keepalive falhou: " + t);
+                stopSelf();
             }
         }
 

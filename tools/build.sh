@@ -50,8 +50,8 @@ python3 - <<'PY'
 import re
 p = 'apktool.yml'
 s = open(p).read()
-s = re.sub(r"versionName: .*", "versionName: 1.2", s, count=1)
-s = re.sub(r"versionCode: .*", "versionCode: 3", s, count=1)
+s = re.sub(r"versionName: .*", "versionName: 1.3", s, count=1)
+s = re.sub(r"versionCode: .*", "versionCode: 4", s, count=1)
 open(p, 'w').write(s)
 PY
 
