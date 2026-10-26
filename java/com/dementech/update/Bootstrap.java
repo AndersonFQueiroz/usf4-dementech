@@ -92,54 +92,6 @@ public final class Bootstrap {
             }
         }
 
-        JSONArray data = m.optJSONArray("data");
-        File root = ctx.getExternalFilesDir(null);
-        if (data != null && root != null) {
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject d = data.getJSONObject(i);
-                String url = d.optString("url", "");
-                String list = d.optString("list", "");
-                if (!list.isEmpty()) {
-                    File marker2 = new File(root, ".dados_ok");
-                    if (marker2.isFile()) continue;
-                    startKeepAlive(ctx, "Baixando dados do jogo");
-                    try {
-                        downloadFolderList(list, new File(root, d.optString("dir", "UsfivRecomp")));
-                        writeText(marker2, "ok\n");
-                        notify(ctx, "Dados do jogo prontos", "Dementech USF4");
-                    } finally {
-                        stopKeepAlive(ctx);
-                    }
-                    continue;
-                }
-                if (url.isEmpty()) continue;
-                boolean tar = d.optBoolean("tar", false) || url.endsWith(".tar.gz");
-                File dest = new File(root, d.optString("dir", "UsfivRecomp"));
-                if (d.optBoolean("done", false)) continue;
-                File marker = new File(root, ".dados_ok");
-                if (marker.isFile()) continue;
-                startKeepAlive(ctx, "Baixando dados do jogo");
-                try {
-                    if (tar) {
-                        downloadTarGz(url, dest, d.optLong("size", 0), (done, total) -> {
-                            if (total > 0) {
-                                int pct = (int) (done * 100 / total);
-                                KeepAlive.progress(pct, "baixando dados… " + pct + "%");
-                            }
-                        });
-                    } else {
-                        File z = new File(ctx.getCacheDir(), "data.pack");
-                        download(url, z, d.optLong("size", 0), (done, total) -> { });
-                        unzip(z, dest);
-                        z.delete();
-                    }
-                    writeText(marker, "ok\n");
-                    notify(ctx, "Dados do jogo prontos", "Dementech USF4");
-                } finally {
-                    stopKeepAlive(ctx);
-                }
-            }
-        }
     }
 
     public interface Progress {
@@ -497,7 +449,7 @@ public final class Bootstrap {
         return bo.toByteArray();
     }
 
-    private static void writeText(File f, String s) throws IOException {
+    static void writeText(File f, String s) throws IOException {
         File parent = f.getParentFile();
         if (parent != null) parent.mkdirs();
         FileOutputStream o = new FileOutputStream(f);
@@ -505,7 +457,7 @@ public final class Bootstrap {
         o.close();
     }
 
-    private static void log(Context ctx, String msg) {
+    static void log(Context ctx, String msg) {
         android.util.Log.i("Dementech", msg);
         try {
             File f = new File(ctx.getFilesDir(), "update_log.txt");
@@ -573,9 +525,17 @@ public final class Bootstrap {
         private Notification build(String title, String text, int pct) {
             Notification.Builder b = Build.VERSION.SDK_INT >= 26
                     ? new Notification.Builder(this, "dementech_dl") : new Notification.Builder(this);
+            Intent open = new Intent();
+            open.setClassName(this, "io.github.belmantegu.usfivrecomp.LauncherActivity");
+            open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            android.app.PendingIntent pi = android.app.PendingIntent.getActivity(
+                    this, 0, open,
+                    android.app.PendingIntent.FLAG_UPDATE_CURRENT
+                            | (Build.VERSION.SDK_INT >= 23 ? android.app.PendingIntent.FLAG_IMMUTABLE : 0));
             b.setSmallIcon(android.R.drawable.stat_sys_download)
                     .setContentTitle(title)
                     .setContentText(text)
+                    .setContentIntent(pi)
                     .setOngoing(true)
                     .setOnlyAlertOnce(true);
             if (pct >= 0) b.setProgress(100, pct, false);

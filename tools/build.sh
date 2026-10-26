@@ -50,8 +50,8 @@ python3 - <<'PY'
 import re
 p = 'apktool.yml'
 s = open(p).read()
-s = re.sub(r"versionName: .*", "versionName: 1.3", s, count=1)
-s = re.sub(r"versionCode: .*", "versionCode: 4", s, count=1)
+s = re.sub(r"versionName: .*", "versionName: 1.5", s, count=1)
+s = re.sub(r"versionCode: .*", "versionCode: 6", s, count=1)
 open(p, 'w').write(s)
 PY
 
@@ -114,6 +114,37 @@ for p in glob.glob('build/dec/smali*/io/github/belmantegu/usfivrecomp/LauncherAc
         print('   hook LauncherActivity ok')
     break
 
+# hook da barra (depois do setContentView)
+for p in glob.glob('build/dec/smali*/io/github/belmantegu/usfivrecomp/LauncherActivity.smali'):
+    s = open(p).read()
+    if 'com/dementech/update/Bar' in s:
+        print('   bar ja presente')
+        break
+    m = re.search(r'(invoke-virtual \{p0, v0\}, Lio/github/belmantegu/usfivrecomp/LauncherActivity;->setContentView\(Landroid/view/View;\)V\n)', s)
+    if m:
+        s = s.replace(m.group(1), m.group(1) +
+                      '\n    invoke-static {p0}, Lcom/dementech/update/Bar;->attach(Landroid/app/Activity;)V\n', 1)
+        open(p, 'w').write(s)
+        print('   bar LauncherActivity ok')
+    break
+
+# nao mostrar o card "Jogo nao encontrado" enquanto a barra cuida do download
+for p in glob.glob('build/dec/smali*/io/github/belmantegu/usfivrecomp/LauncherActivity.smali'):
+    s = open(p).read()
+    if 'Downloader;->pending' in s:
+        print('   card guard ja presente')
+        break
+    needle = '    if-ne v0, v4, :cond_5\n'
+    if needle in s:
+        s = s.replace(needle, needle +
+            '\n    invoke-static {}, Lcom/dementech/update/Downloader;->pending()Z\n'
+            '    move-result v7\n'
+            '    if-nez v7, :cond_5\n'
+            '    goto :goto_5\n', 1)
+        open(p, 'w').write(s)
+        print('   card guard ok')
+    break
+
 # permissoes + servico
 p = 'build/dec/AndroidManifest.xml'
 s = open(p).read()
@@ -123,11 +154,15 @@ if 'FOREGROUND_SERVICE_DATA_SYNC' not in s:
         '<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>'
         '<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>'
         '<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>'
-        '<uses-permission android:name="android.permission.WAKE_LOCK"/>', 1)
+        '<uses-permission android:name="android.permission.WAKE_LOCK"/>'
+        '<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>', 1)
 if 'Bootstrap$KeepAlive' not in s:
     s = s.replace('</application>',
         '<service android:name="com.dementech.update.Bootstrap$KeepAlive" '
-        'android:exported="false" android:foregroundServiceType="dataSync"/></application>')
+        'android:exported="false" android:stopWithTask="false" android:foregroundServiceType="dataSync"/>'
+        '<activity android:name="com.dementech.update.DownloadActivity" '
+        'android:exported="false" android:theme="@android:style/Theme.Material.NoActionBar"/>'
+        '</application>')
 open(p, 'w').write(s)
 print('   manifest updater ok')
 PY
