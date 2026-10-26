@@ -36,7 +36,7 @@ public final class Downloader {
     static boolean dataPresent(Context ctx) {
         File r = root(ctx);
         if (!new File(r, ".dados_ok").isFile()) return false;
-        File xex = new File(new File(r, "UsfivRecomp"), "game/Default.xex");
+        File xex = new File(new File(r, "game"), "Default.xex");
         return xex.isFile() && xex.length() > 1048576;
     }
 
@@ -92,7 +92,9 @@ public final class Downloader {
         JSONObject d = data.getJSONObject(0);
         String listUrl = d.optString("list", "");
         if (listUrl.isEmpty()) throw new Exception("manifesto sem lista");
-        File dest = new File(root(ctx), d.optString("dir", "UsfivRecomp"));
+        String dir = d.optString("dir", "");
+        if (dir.equals("UsfivRecomp")) dir = "";
+        File dest = new File(root(ctx), dir);
         final boolean sync = d.optBoolean("sync", true);
 
         state = "lendo lista";
