@@ -34,14 +34,30 @@ Assets:
 - `assets/brand/launcher_logo.png` → `assets/launcher/logo.png` (emblema Dementech × SF)
 - `assets/brand/ic_launcher_{mdpi..xxxhdpi}.png` → ícones do app
 
+## Atualizações (updater)
+
+- Canal público: `github.com/AndersonFQueiroz/usf4-dementech` (só manifesto + patch).
+- Ao abrir o launcher: `Bootstrap.check()` lê
+  `releases/latest/download/manifest.json`; se `version` > local, baixa `patch.zip`,
+  confere `sha256` e extrai em `files/` (grava `patch_status.txt`).
+- Download roda em **serviço em primeiro plano** (notificação com %) + wake lock.
+- `manifest.json` também aceita `data[]` para baixar o pacote do jogo
+  (tar.gz em streaming para `files/UsfivRecomp`) — hoje sem pacote publicado.
+- Código: `java/com/dementech/update/Bootstrap.java` (vira `classes6.dex`).
+
 ## Build
 
 ```sh
-export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
+# base original (0.3.0) aplica todos os patches
 BASE_APK=/sdcard/Download/USF4-0.3.0.apk tools/build.sh
+
+# base já Dementech (base/dementech-usf4-base.apk) pula os patches e só injeta o updater
+BASE_APK=base/dementech-usf4-base.apk tools/build.sh
 ```
 
-Saída em `dist/dementech-usf4.apk`, assinado com `~/keys/carbon.jks`
+O APK base original **não está mais no aparelho** — a cópia de trabalho é
+`base/dementech-usf4-base.apk` (já rebrandada, gitignored). Saída em
+`dist/dementech-usf4.apk`, assinado com `~/keys/carbon.jks`
 (mesma chave dos outros apps Dementech → `adb install -r` preserva os dados).
 
 Requisitos: `apktool` 2.7+ com `--use-aapt2`, Android build-tools (aapt2,
